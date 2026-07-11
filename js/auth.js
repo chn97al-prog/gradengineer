@@ -6,93 +6,89 @@
 import { auth } from "./firebase.js";
 
 import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-signInWithEmailAndPassword,
-
-signOut,
-
-onAuthStateChanged
-
-} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
 // تسجيل الدخول
 
 const loginForm = document.getElementById("loginForm");
 
-if(loginForm){
+if (loginForm) {
 
-loginForm.addEventListener("submit",async(e)=>{
+  loginForm.addEventListener("submit", async (e) => {
 
-e.preventDefault();
+    e.preventDefault();
 
-const email=document.getElementById("email").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-const password=document.getElementById("password").value;
+    try {
 
-try{
+      await signInWithEmailAndPassword(auth, email, password);
 
-await signInWithEmailAndPassword(auth,email,password);
+      alert("تم تسجيل الدخول بنجاح");
 
-alert("تم تسجيل الدخول بنجاح");
+      window.location.href = "dashboard.html";
 
-window.location.href="dashboard.html";
+    } catch (error) {
 
-}catch(error){
+      alert("الإيميل أو كلمة المرور غير صحيحة");
 
-alert("فشل تسجيل الدخول");
+      console.log(error);
 
-console.log(error);
+    }
+
+  });
 
 }
 
-});
-
-}
 
 // تسجيل الخروج
 
-window.logout=function(){
+window.logout = function(){
 
-signOut(auth)
+  signOut(auth)
+  .then(()=>{
 
-.then(()=>{
+    window.location.href = "login.html";
 
-window.location.href="login.html";
+  })
+  .catch((error)=>{
 
-})
+    console.log(error);
 
-.catch((error)=>{
+  });
 
-console.log(error);
+};
 
-});
 
-}
-
-// التحقق من تسجيل الدخول
+// حماية صفحات الإدارة
 
 onAuthStateChanged(auth,(user)=>{
 
-const page=window.location.pathname;
+  const page = window.location.pathname;
 
-if(page.includes("dashboard") ||
+  const adminPages = [
+    "dashboard",
+    "orders",
+    "groups",
+    "representatives",
+    "statistics",
+    "settings"
+  ];
 
-page.includes("orders") ||
 
-page.includes("groups") ||
+  if(adminPages.some(p => page.includes(p))){
 
-page.includes("representatives") ||
+    if(!user){
 
-page.includes("statistics") ||
+      window.location.href="login.html";
 
-page.includes("settings")){
+    }
 
-if(!user){
-
-window.location.href="login.html";
-
-}
-
-}
+  }
 
 });

@@ -174,12 +174,9 @@ try{
 
 
 await fetch(scriptURL,{
-  method:"POST",
-  mode:"no-cors",
-  headers:{
-    "Content-Type":"application/json"
-  },
-  body:JSON.stringify(data)
+method:"POST",
+mode:"no-cors",
+body:new URLSearchParams(data)
 });
 
 

@@ -195,6 +195,57 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbwUg53gYWlZ7oapqwYiyf
 const packageType = localStorage.getItem("package") || "";
 const sashType = localStorage.getItem("sashType") || "";
 
+  /* ===========================
+   التحكم بالحقول
+=========================== */
+
+const fixedSashSection = document.getElementById("fixedSashSection");
+const backSection = document.getElementById("backSection");
+
+// إخفاء الكل بالبداية
+fixedSashSection.style.display = "none";
+backSection.style.display = "none";
+
+// ===========================
+// العادي
+// ===========================
+
+if (
+    packageType === "عادي" ||
+    (packageType === "أمريكي" && sashType === "وشاح عادي")
+){
+
+    fixedSashSection.style.display = "block";
+
+}
+
+// ===========================
+// الملكي
+// ===========================
+
+if(
+    packageType === "ملكي" ||
+    (packageType === "أمريكي" && sashType === "وشاح ملكي")
+){
+
+    fixedSashSection.style.display = "block";
+    backSection.style.display = "block";
+
+}
+
+// ===========================
+// الأمريكي المائل
+// ===========================
+
+if(
+    packageType === "أمريكي" &&
+    sashType === "وشاح مائل"
+){
+
+    fixedSashSection.style.display = "none";
+    backSection.style.display = "none";
+
+}
 
 document.getElementById("selectedPackage").innerHTML =
 packageType === "أمريكي"

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>إعدادات الموقع | تجهيزات المهندس</title>
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+<div class="logo">
+
+<img src="../assets/logo.png">
+
+<h2>تجهيزات المهندس</h2>
+
+</div>
+
+<ul>
+
+<li><a href="dashboard.html">🏠 الرئيسية</a></li>
+
+<li><a href="orders.html">📦 الطلبات</a></li>
+
+<li><a href="groups.html">👥 المجموعات</a></li>
+
+<li><a href="representatives.html">👤 الممثلون</a></li>
+
+<li><a href="statistics.html">📊 الإحصائيات</a></li>
+
+<li class="active"><a href="settings.html">⚙️ الإعدادات</a></li>
+
+</ul>
+
+</aside>
+
+<main class="content">
+
+<div class="header">
+
+<h1>إعدادات الموقع</h1>
+
+<p>إدارة بيانات الموقع وإعداداته العامة</p>
+
+</div>
+
+<div class="card">
+
+<form id="settingsForm">
+
+<label>اسم الموقع</label>
+
+<input
+type="text"
+id="siteName"
+placeholder="تجهيزات المهندس">
+
+<label>رسالة الترحيب</label>
+
+<textarea
+id="welcomeMessage"
+rows="4"></textarea>
+
+<label>لون الموقع</label>
+
+<input
+type="color"
+id="themeColor">
+
+<label>حالة استقبال الطلبات</label>
+
+<select id="ordersStatus">
+
+<option value="open">مفتوح</option>
+
+<option value="closed">مغلق</option>
+
+</select>
+
+<label>رقم الهاتف</label>
+
+<input
+type="text"
+id="phone">
+
+<label>رقم الواتساب</label>
+
+<input
+type="text"
+id="whatsapp">
+
+<label>رابط إنستغرام</label>
+
+<input
+type="text"
+id="instagram">
+
+<label>رابط فيسبوك</label>
+
+<input
+type="text"
+id="facebook">
+
+<br><br>
+
+<button
+type="submit"
+class="btn">
+
+💾 حفظ الإعدادات
+
+</button>
+
+<button
+type="button"
+class="btn"
+onclick="resetSettings()">
+
+🔄 إعادة الضبط
+
+</button>
+
+</form>
+
+</div>
+
+</main>
+
+<script src="../js/settings.js"></script>
+
+</body>
+
+</html>

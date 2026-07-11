@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>إدارة الممثلين | تجهيزات المهندس</title>
+
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <img src="../assets/logo.png">
+
+            <h2>تجهيزات المهندس</h2>
+
+        </div>
+
+        <ul>
+
+            <li><a href="dashboard.html">🏠 الرئيسية</a></li>
+
+            <li><a href="orders.html">📦 الطلبات</a></li>
+
+            <li><a href="groups.html">👥 المجموعات</a></li>
+
+            <li class="active"><a href="representatives.html">👤 الممثلون</a></li>
+
+            <li><a href="statistics.html">📊 الإحصائيات</a></li>
+
+            <li><a href="settings.html">⚙️ الإعدادات</a></li>
+
+        </ul>
+
+    </aside>
+
+    <main class="content">
+
+        <div class="header">
+
+            <h1>إدارة الممثلين</h1>
+
+            <p>إضافة وتعديل ممثلي الدفعات</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>إضافة ممثل جديد</h2>
+
+            <form id="representativeForm">
+
+                <label>اسم الممثل</label>
+
+                <input
+                    type="text"
+                    id="repName"
+                    required>
+
+                <label>رقم الهاتف</label>
+
+                <input
+                    type="tel"
+                    id="repPhone"
+                    required>
+
+                <label>البريد الإلكتروني</label>
+
+                <input
+                    type="email"
+                    id="repEmail"
+                    required>
+
+                <label>الكلية / القسم</label>
+
+                <input
+                    type="text"
+                    id="repCollege"
+                    required>
+
+                <br><br>
+
+                <button
+                    class="btn"
+                    type="submit">
+
+                    إضافة الممثل
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <br>
+
+        <input
+            type="text"
+            id="search"
+            placeholder="ابحث عن ممثل..."
+            onkeyup="searchRepresentative()">
+
+        <br><br>
+
+        <div class="latest-orders">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>الاسم</th>
+
+                        <th>الهاتف</th>
+
+                        <th>البريد الإلكتروني</th>
+
+                        <th>الكلية</th>
+
+                        <th>الحالة</th>
+
+                        <th>الإجراءات</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="representativesTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+    <script src="../js/representatives.js"></script>
+
+    <script type="module" src="../js/auth.js"></script>
+
+</body>
+
+</html>

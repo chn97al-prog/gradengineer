@@ -1,0 +1,339 @@
+/* ===================================
+   تجهيزات المهندس
+=================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+}
+
+:root{
+    --primary:#D4AF37;
+    --secondary:#0D1B2A;
+    --white:#ffffff;
+    --bg:#08131F;
+    --card:#10243b;
+    --border:#21405d;
+}
+
+body{
+    background:linear-gradient(135deg,#08131F,#10243b);
+    min-height:100vh;
+    color:#fff;
+}
+
+.background{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(rgba(8,19,31,.85),rgba(8,19,31,.85));
+    z-index:-1;
+}
+
+.home{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.card{
+
+    width:100%;
+    max-width:700px;
+
+    background:rgba(16,36,59,.95);
+
+    border:1px solid var(--border);
+
+    border-radius:25px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+
+    animation:fadeUp .8s;
+
+}
+
+.logo{
+
+    width:130px;
+
+    margin-bottom:20px;
+
+    animation:float 3s infinite ease-in-out;
+
+}
+
+h1{
+
+    color:var(--primary);
+
+    margin-bottom:15px;
+
+    font-size:35px;
+
+}
+
+.welcome{
+
+    color:#ddd;
+
+    line-height:2;
+
+    margin-bottom:30px;
+
+}
+
+.buttons{
+
+    display:flex;
+
+    gap:15px;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+}
+
+.btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:15px 25px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    border:none;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    color:#08131F;
+
+}
+
+.btn-secondary{
+
+    background:#17314f;
+
+    color:#fff;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-4px);
+
+}
+
+form{
+
+    text-align:right;
+
+}
+
+label{
+
+    display:block;
+
+    margin:15px 0 8px;
+
+    font-weight:bold;
+
+}
+
+input,
+select,
+textarea{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#17314f;
+
+    color:white;
+
+    font-size:16px;
+
+    outline:none;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+    border:2px solid var(--primary);
+
+}
+
+input[type=file]{
+
+    background:transparent;
+
+    padding:10px 0;
+
+}
+
+hr{
+
+    margin:30px 0;
+
+    border:none;
+
+    border-top:1px solid #345;
+
+}
+
+h2{
+
+    color:var(--primary);
+
+    margin-bottom:20px;
+
+}
+
+footer{
+
+    text-align:center;
+
+    padding:20px;
+
+    color:#bbb;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+table th{
+
+    background:#17314f;
+
+    color:var(--primary);
+
+    padding:14px;
+
+}
+
+table td{
+
+    padding:14px;
+
+    border-bottom:1px solid #21405d;
+
+    text-align:center;
+
+}
+
+@keyframes float{
+
+0%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-10px);
+
+}
+
+100%{
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@media(max-width:768px){
+
+.card{
+
+padding:25px;
+
+}
+
+.buttons{
+
+flex-direction:column;
+
+}
+
+.btn{
+
+width:100%;
+
+}
+
+h1{
+
+font-size:28px;
+
+}
+
+.logo{
+
+width:100px;
+
+}
+
+}

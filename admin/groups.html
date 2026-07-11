@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة المجموعات | تجهيزات المهندس</title>
+
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <img src="../assets/logo.png" alt="Logo">
+
+            <h2>تجهيزات المهندس</h2>
+
+        </div>
+
+        <ul>
+
+            <li><a href="dashboard.html">🏠 الرئيسية</a></li>
+
+            <li><a href="orders.html">📦 الطلبات</a></li>
+
+            <li class="active"><a href="groups.html">👥 المجموعات</a></li>
+
+            <li><a href="representatives.html">🧑‍💼 الممثلون</a></li>
+
+            <li><a href="statistics.html">📊 الإحصائيات</a></li>
+
+            <li><a href="settings.html">⚙️ الإعدادات</a></li>
+
+        </ul>
+
+    </aside>
+
+    <main class="content">
+
+        <div class="header">
+
+            <h1>إدارة المجموعات</h1>
+
+            <p>إنشاء وإدارة مجموعات الطلبة</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>إضافة مجموعة جديدة</h2>
+
+            <br>
+
+            <input
+                type="text"
+                id="groupName"
+                placeholder="اسم المجموعة">
+
+            <br><br>
+
+            <input
+                type="text"
+                id="representative"
+                placeholder="اسم الممثل">
+
+            <br><br>
+
+            <button
+                class="btn"
+                onclick="addGroup()">
+
+                إنشاء المجموعة
+
+            </button>
+
+        </div>
+
+        <br>
+
+        <input
+            type="text"
+            id="search"
+            placeholder="ابحث عن مجموعة..."
+            onkeyup="searchGroups()">
+
+        <br><br>
+
+        <div class="latest-orders">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>كود المجموعة</th>
+
+                        <th>اسم المجموعة</th>
+
+                        <th>الممثل</th>
+
+                        <th>الحالة</th>
+
+                        <th>الإجراءات</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="groupsTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+    <script src="../js/groups.js"></script>
+
+    <script type="module" src="../js/auth.js"></script>
+
+</body>
+
+</html>

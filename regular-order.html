@@ -38,64 +38,143 @@
 <form id="individualForm">
 
 
+<!-- ===================== -->
+<!-- معلومات الطالب -->
+<!-- ===================== -->
+
 <label>الاسم الثلاثي</label>
 <input type="text" id="studentName" required>
-
-
 
 <label>الاسم على الوشاح</label>
 <input type="text" id="sashName" required>
 
+<!-- ===================== -->
+<!-- الطرف الثابت -->
+<!-- ===================== -->
 
+<div id="fixedSashSection">
+
+<label>الطرف الثابت للوشاح</label>
+<input type="text" id="fixedSash">
+
+<label>شعار الجامعة</label>
+<input
+type="file"
+id="universityLogo"
+accept="image/*">
+
+</div>
+
+<!-- ===================== -->
+<!-- الظهر -->
+<!-- ===================== -->
+
+<div id="backSection">
 
 <label>الكتابة على الظهر</label>
-<input type="text" id="backText">
+<input
+type="text"
+id="backText">
 
+<label>صورة الظهر</label>
+<input
+type="file"
+id="backImage"
+accept="image/*">
 
+</div>
+
+<!-- ===================== -->
+<!-- القبعة -->
+<!-- ===================== -->
 
 <label>الكتابة على القبعة</label>
-<input type="text" id="capText">
 
+<input
+type="text"
+id="capText">
 
+<label>صورة القبعة</label>
+
+<input
+type="file"
+id="capImage"
+accept="image/*">
+
+<!-- ===================== -->
+<!-- جانب القبعة -->
+<!-- ===================== -->
 
 <label>الكتابة على جانب القبعة</label>
-<input type="text" id="sideCapText">
 
+<input
+type="text"
+id="sideCapText">
 
+<label>صورة جانب القبعة</label>
+
+<input
+type="file"
+id="sideCapImage"
+accept="image/*">
+
+<!-- ===================== -->
+<!-- القياسات -->
+<!-- ===================== -->
 
 <h2>القياسات</h2>
 
-
 <label>طول الروب</label>
-<input type="number" id="robeLength" required>
-
+<input
+type="number"
+id="robeLength"
+required>
 
 <label>طول الردن</label>
-<input type="number" id="sleeveLength" required>
-
+<input
+type="number"
+id="sleeveLength"
+required>
 
 <label>الكتف</label>
-<input type="number" id="shoulder" required>
-
+<input
+type="number"
+id="shoulder"
+required>
 
 <label>محيط الصدر</label>
-<input type="number" id="chest" required>
-
+<input
+type="number"
+id="chest"
+required>
 
 <label>قياس الرأس</label>
-<input type="number" id="headSize" required>
+<input
+type="number"
+id="headSize"
+required>
 
-
+<!-- ===================== -->
+<!-- الهاتف -->
+<!-- ===================== -->
 
 <label>رقم الهاتف</label>
-<input type="tel" id="phone" placeholder="07XXXXXXXXX" required>
 
+<input
+type="tel"
+id="phone"
+placeholder="07xxxxxxxxx"
+required>
 
+<!-- ===================== -->
 
-<button type="submit">
+<button
+type="submit"
+class="btn btn-primary">
+
 إرسال الطلب
-</button>
 
+</button>
 
 
 </form>

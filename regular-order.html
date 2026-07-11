@@ -108,7 +108,104 @@
 
 
 
-<script type="module">
+<script>
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbxeBMo8i2UbutdFWUzK3BLNaT1So_FeeKzFKIbrF-9ENB1Gi4NgB6EozdkxcOKQz02NGA/exec";
+
+
+const packageType = localStorage.getItem("package") || "";
+const sashType = localStorage.getItem("sashType") || "";
+
+
+document.getElementById("selectedPackage").innerHTML =
+packageType === "أمريكي"
+?
+`نوع الطلب: ${packageType}<br>نوع الوشاح: ${sashType}`
+:
+`نوع الطلب: ${packageType}`;
+
+
+
+document.getElementById("individualForm").addEventListener("submit", async(e)=>{
+
+e.preventDefault();
+
+
+const data = {
+
+orderType:"طلب فردي",
+
+package:packageType,
+
+sash:sashType,
+
+
+studentName:
+document.getElementById("studentName").value,
+
+
+phone:
+document.getElementById("phone").value,
+
+
+sashName:
+document.getElementById("sashName").value,
+
+
+fixedSash:
+document.getElementById("fixedSash")?.value || "",
+
+
+capText:
+document.getElementById("capText")?.value || "",
+
+
+sideCapText:
+document.getElementById("sideCapText")?.value || "",
+
+
+notes:""
+
+};
+
+
+
+try{
+
+
+await fetch(scriptURL,{
+
+method:"POST",
+
+body:JSON.stringify(data)
+
+});
+
+
+alert("تم إرسال الطلب بنجاح ✅");
+
+
+document.getElementById("individualForm").reset();
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+alert("حدث خطأ أثناء إرسال الطلب");
+
+
+}
+
+
+
+});
+
+
+</script>
 
 
 import { db } from "./js/firebase.js";

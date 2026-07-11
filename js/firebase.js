@@ -1,9 +1,14 @@
 // Firebase Configuration
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
 // إعدادات مشروع Firebase
+
 const firebaseConfig = {
   apiKey: "AIzaSyDzl2S9fwW2HYvyPbGPOA4UtRyh6A3aDNE",
   authDomain: "gradengineer-d8d10.firebaseapp.com",
@@ -14,8 +19,17 @@ const firebaseConfig = {
   measurementId: "G-ZD1EJW0FZ8"
 };
 
+
 // تشغيل Firebase
+
 const app = initializeApp(firebaseConfig);
 
-// نظام تسجيل الدخول
+
+// تسجيل الدخول
+
 export const auth = getAuth(app);
+
+
+// قاعدة البيانات
+
+export const db = getFirestore(app);

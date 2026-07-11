@@ -187,10 +187,9 @@ class="btn btn-primary">
 
 
 
-<script>
+<script type="module">
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbwUg53gYWlZ7oapqwYiyf-JXl182rhwSdMzMQADCoQ6lBBET5dxZ7eAEHaaWExRkyXUFA/exec";
-
+import { supabase } from "./js/supabase.js";
 
 const packageType = localStorage.getItem("package") || "";
 const sashType = localStorage.getItem("sashType") || "";
@@ -254,74 +253,119 @@ packageType === "أمريكي"
 :
 `نوع الطلب: ${packageType}`;
 
+async function uploadImage(file){
 
+    if(!file) return "";
+
+    const fileName =
+    Date.now() + "_" + file.name;
+
+    const { error } = await supabase
+    .storage
+    .from("orders")
+    .upload(fileName,file);
+
+    if(error){
+
+        console.log(error);
+
+        return "";
+
+    }
+
+    const { data } = supabase
+    .storage
+    .from("orders")
+    .getPublicUrl(fileName);
+
+    return data.publicUrl;
+
+}
 
 document.getElementById("individualForm").addEventListener("submit", async(e)=>{
 
 e.preventDefault();
 
+  const universityLogoUrl = await uploadImage(
+    document.getElementById("universityLogo")?.files[0]
+);
 
-const data = {
+const backImageUrl = await uploadImage(
+    document.getElementById("backImage")?.files[0]
+);
 
-orderType:"طلب فردي",
+const capImageUrl = await uploadImage(
+    document.getElementById("capImage")?.files[0]
+);
 
-package:packageType,
-
-sash:sashType,
-
-
-studentName:
-document.getElementById("studentName").value,
-
-
-phone:
-document.getElementById("phone").value,
-
-
-sashName:
-document.getElementById("sashName").value,
-
-
-fixedSash:
-document.getElementById("fixedSash")?.value || "",
-
-
-capText:
-document.getElementById("capText")?.value || "",
-
-
-sideCapText:
-document.getElementById("sideCapText")?.value || "",
-
-
-notes:""
-
-};
-
+const sideCapImageUrl = await uploadImage(
+    document.getElementById("sideCapImage")?.files[0]
+);
 
 
 try{
 
+const { error } = await supabase
+.from("orders")
+.insert([{
 
-await fetch(scriptURL,{
-method:"POST",
-mode:"no-cors",
-body:new URLSearchParams(data)
-});
+    order_type: "طلب فردي",
 
+    package: packageType,
+
+    sash: sashType,
+
+    student_name: document.getElementById("studentName").value,
+
+    sash_name: document.getElementById("sashName").value,
+
+    fixed_sash: document.getElementById("fixedSash")?.value || "",
+
+    back_text: document.getElementById("backText")?.value || "",
+
+    cap_text: document.getElementById("capText")?.value || "",
+
+    side_cap_text: document.getElementById("sideCapText")?.value || "",
+
+    robe_length: Number(document.getElementById("robeLength").value),
+
+    sleeve_length: Number(document.getElementById("sleeveLength").value),
+
+    shoulder: Number(document.getElementById("shoulder").value),
+
+    chest: Number(document.getElementById("chest").value),
+
+    head_size: Number(document.getElementById("headSize").value),
+
+    phone: document.getElementById("phone").value,
+
+    university_logo: universityLogoUrl,
+
+    back_image: backImageUrl,
+
+    cap_image: capImageUrl,
+
+    side_cap_image: sideCapImageUrl,
+
+
+}]);
+
+if (error) {
+    console.error(error);
+    alert("حدث خطأ أثناء حفظ الطلب");
+    return;
+}
 
 alert("تم إرسال الطلب بنجاح ✅");
 
-
 document.getElementById("individualForm").reset();
-
 
 }
 
 catch(error){
 
 
-console.log(error);
+if (error) {      console.error(error);      alert(error.message);      return;  }
 
 alert("حدث خطأ أثناء إرسال الطلب");
 

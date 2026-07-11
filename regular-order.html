@@ -1,67 +1,263 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>الطلب الفردي | تجهيزات المهندس</title>
+
 <link rel="stylesheet" href="css/style.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
 </head>
+
+
 <body>
+
 <div class="background"></div>
+
+
 <section class="home">
+
 <div class="card" style="max-width:900px">
+
+
 <img src="assets/logo.png" class="logo" alt="logo">
+
+
 <h1>الطلب الفردي</h1>
+
+
 <p id="selectedPackage"></p>
+
+
+
 <form id="individualForm">
+
+
 <label>الاسم الثلاثي</label>
 <input type="text" id="studentName" required>
+
+
 
 <label>الاسم على الوشاح</label>
 <input type="text" id="sashName" required>
 
+
+
 <label>الكتابة على الظهر</label>
 <input type="text" id="backText">
-<label>صورة الظهر</label>
-<input type="file" id="backImage" accept="image/*">
+
+
 
 <label>الكتابة على القبعة</label>
 <input type="text" id="capText">
-<label>صورة القبعة</label>
-<input type="file" id="capImage" accept="image/*">
+
+
 
 <label>الكتابة على جانب القبعة</label>
 <input type="text" id="sideCapText">
-<label>صورة جانب القبعة</label>
-<input type="file" id="sideCapImage" accept="image/*">
+
+
 
 <h2>القياسات</h2>
-<label>طول الروب</label><input type="number" id="robeLength" required>
-<label>طول الردن</label><input type="number" id="sleeveLength" required>
-<label>الكتف</label><input type="number" id="shoulder" required>
-<label>محيط الصدر</label><input type="number" id="chest" required>
-<label>قياس الرأس</label><input type="number" id="headSize" required>
+
+
+<label>طول الروب</label>
+<input type="number" id="robeLength" required>
+
+
+<label>طول الردن</label>
+<input type="number" id="sleeveLength" required>
+
+
+<label>الكتف</label>
+<input type="number" id="shoulder" required>
+
+
+<label>محيط الصدر</label>
+<input type="number" id="chest" required>
+
+
+<label>قياس الرأس</label>
+<input type="number" id="headSize" required>
+
+
 
 <label>رقم الهاتف</label>
 <input type="tel" id="phone" placeholder="07XXXXXXXXX" required>
 
-<button type="submit">إرسال الطلب</button>
+
+
+<button type="submit">
+إرسال الطلب
+</button>
+
+
+
 </form>
+
+
 </div>
+
 </section>
-<script>
-const packageType=localStorage.getItem("package")||"";
-const sashType=localStorage.getItem("sashType")||"";
-document.getElementById("selectedPackage").innerHTML=
-packageType==="أمريكي"?
-`نوع الطلب: ${packageType}<br>نوع الوشاح: ${sashType}`:
+
+
+
+
+<script type="module">
+
+
+import { db } from "./js/firebase.js";
+
+
+import { 
+collection,
+addDoc,
+serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
+
+
+
+const packageType = localStorage.getItem("package") || "";
+
+const sashType = localStorage.getItem("sashType") || "";
+
+
+
+document.getElementById("selectedPackage").innerHTML =
+
+packageType === "أمريكي"
+
+?
+
+`نوع الطلب: ${packageType}<br>نوع الوشاح: ${sashType}`
+
+:
+
 `نوع الطلب: ${packageType}`;
 
-document.getElementById("individualForm").addEventListener("submit",e=>{
+
+
+
+document
+.getElementById("individualForm")
+.addEventListener("submit", async(e)=>{
+
+
 e.preventDefault();
-alert("سيتم ربط الإرسال مع Firebase وTelegram لاحقاً.");
+
+
+
+try{
+
+
+await addDoc(
+
+collection(db,"orders"),
+
+{
+
+
+orderType:"طلب فردي",
+
+
+package:packageType,
+
+
+sash:sashType,
+
+
+studentName:
+document.getElementById("studentName").value,
+
+
+sashName:
+document.getElementById("sashName").value,
+
+
+backText:
+document.getElementById("backText").value,
+
+
+capText:
+document.getElementById("capText").value,
+
+
+sideCapText:
+document.getElementById("sideCapText").value,
+
+
+
+robeLength:
+document.getElementById("robeLength").value,
+
+
+sleeveLength:
+document.getElementById("sleeveLength").value,
+
+
+shoulder:
+document.getElementById("shoulder").value,
+
+
+chest:
+document.getElementById("chest").value,
+
+
+headSize:
+document.getElementById("headSize").value,
+
+
+phone:
+document.getElementById("phone").value,
+
+
+createdAt:
+serverTimestamp()
+
+
+}
+
+);
+
+
+
+alert("تم إرسال الطلب بنجاح ✅");
+
+
+
+document.getElementById("individualForm").reset();
+
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+
+alert("حدث خطأ أثناء إرسال الطلب");
+
+
+}
+
+
+
 });
+
+
 </script>
+
+
 </body>
+
 </html>

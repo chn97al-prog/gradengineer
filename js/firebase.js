@@ -1,55 +1,21 @@
-/* ==========================================
-   Firebase Configuration
-   تجهيزات المهندس
-========================================== */
+// Firebase Configuration
 
-// استيراد Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-import { getFirestore } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-
-import { getStorage } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
-
-import { getAuth } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-// بيانات مشروع Firebase
+// إعدادات مشروع Firebase
 const firebaseConfig = {
-
-    apiKey: "YOUR_API_KEY",
-
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-
-    projectId: "YOUR_PROJECT_ID",
-
-    storageBucket: "YOUR_PROJECT.appspot.com",
-
-    messagingSenderId: "YOUR_SENDER_ID",
-
-    appId: "YOUR_APP_ID"
-
+  apiKey: "AIzaSyDzl2S9fwW2HYvyPbGPOA4UtRyh6A3aDNE",
+  authDomain: "gradengineer-d8d10.firebaseapp.com",
+  projectId: "gradengineer-d8d10",
+  storageBucket: "gradengineer-d8d10.firebasestorage.app",
+  messagingSenderId: "615252407862",
+  appId: "1:615252407862:web:3486ca69663a31d5bdca97",
+  measurementId: "G-ZD1EJW0FZ8"
 };
 
 // تشغيل Firebase
 const app = initializeApp(firebaseConfig);
 
-// Firestore
-const db = getFirestore(app);
-
-// Storage
-const storage = getStorage(app);
-
-// Authentication
-const auth = getAuth(app);
-
-// تصدير الخدمات
-export {
-
-    app,
-
-    db,
-
-    storage,
-
-    auth
-
-};
+// نظام تسجيل الدخول
+export const auth = getAuth(app);

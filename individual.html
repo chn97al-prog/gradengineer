@@ -27,11 +27,12 @@
 <h1>الطلب الفردي</h1>
 
 <p class="welcome">
-
-اختر نوع الطلب
-
+    اختر نوع الطلب
 </p>
 
+<!-- ===================== -->
+<!-- اختيار نوع الطلب -->
+<!-- ===================== -->
 <div class="buttons">
 
 <button class="btn btn-primary" onclick="selectPackage('عادي')">
@@ -60,14 +61,14 @@
 
 </div>
 
+<!-- ===================== -->
 <!-- أنواع الوشاح الأمريكي -->
+<!-- ===================== -->
 
 <div id="americanSection" style="display:none;margin-top:30px;">
 
 <h2 style="margin-bottom:20px;color:#D4AF37;">
-
 اختر نوع الوشاح
-
 </h2>
 
 <div class="buttons">
@@ -97,6 +98,49 @@ onclick="selectAmerican('وشاح مائل')">
 
 </div>
 
+<!-- ===================== -->
+<!-- اختيار نوع القماش -->
+<!-- ===================== -->
+
+<div id="fabricSection" style="display:none;margin-top:30px;">
+
+<h2 style="margin-bottom:20px;color:#D4AF37;">
+اختر نوع القماش
+</h2>
+
+<div class="buttons">
+
+<button class="btn btn-secondary"
+onclick="selectFabric('بوليستر')">
+
+<i class="fa-solid fa-layer-group"></i>
+
+بوليستر
+
+</button>
+
+<button class="btn btn-secondary"
+onclick="selectFabric('باربي')">
+
+<i class="fa-solid fa-layer-group"></i>
+
+باربي
+
+</button>
+
+<button class="btn btn-secondary"
+onclick="selectFabric('كوبرا')">
+
+<i class="fa-solid fa-layer-group"></i>
+
+كوبرا
+
+</button>
+
+</div>
+
+</div>
+
 <br>
 
 <a href="index.html" class="btn btn-secondary">
@@ -115,25 +159,44 @@ onclick="selectAmerican('وشاح مائل')">
 
 function selectPackage(type){
 
-localStorage.setItem("package",type);
-
-window.location.href="regular-order.html";
+    localStorage.setItem("package",type);
+    
+    // إظهار قسم اختيار القماش
+    document.getElementById("fabricSection").style.display="block";
+    
+    // إخفاء قسم الوشاح الأمريكي إذا كان ظاهراً
+    document.getElementById("americanSection").style.display="none";
 
 }
 
 function showAmerican(){
 
-document.getElementById("americanSection").style.display="block";
+    document.getElementById("americanSection").style.display="block";
+    
+    // إخفاء قسم القماش
+    document.getElementById("fabricSection").style.display="none";
 
 }
 
 function selectAmerican(type){
 
-localStorage.setItem("package","أمريكي");
+    localStorage.setItem("package","أمريكي");
 
-localStorage.setItem("sashType",type);
+    localStorage.setItem("sashType",type);
+    
+    // إظهار قسم اختيار القماش
+    document.getElementById("fabricSection").style.display="block";
+    
+    // إخفاء قسم الوشاح الأمريكي
+    document.getElementById("americanSection").style.display="none";
 
-window.location.href="regular-order.html";
+}
+
+function selectFabric(fabric){
+
+    localStorage.setItem("fabric",fabric);
+
+    window.location.href="regular-order.html";
 
 }
 

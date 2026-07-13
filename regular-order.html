@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>الطلب الفردي | تجهيزات المهندسV2</title>
+<title>الطلب الفردي | تجهيزات المهندس</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -47,6 +47,13 @@
 
 <label>الاسم على الوشاح</label>
 <input type="text" id="sashName" required>
+
+<!-- ===================== -->
+<!-- نوع القماش -->
+<!-- ===================== -->
+
+<label>نوع القماش</label>
+<p id="selectedFabric" style="color:#D4AF37; font-weight:bold; margin:10px 0;"></p>
 
 <!-- ===================== -->
 <!-- الطرف الثابت -->
@@ -193,6 +200,7 @@ import { supabase } from "./js/supabase.js";
 
 const packageType = localStorage.getItem("package") || "";
 const sashType = localStorage.getItem("sashType") || "";
+const fabricType = localStorage.getItem("fabric") || "";
 
   /* ===========================
    التحكم بالحقول
@@ -246,12 +254,15 @@ if(
 
 }
 
+// عرض المعلومات المختارة
 document.getElementById("selectedPackage").innerHTML =
 packageType === "أمريكي"
 ?
 `نوع الطلب: ${packageType}<br>نوع الوشاح: ${sashType}`
 :
 `نوع الطلب: ${packageType}`;
+
+document.getElementById("selectedFabric").innerHTML = fabricType;
 
 async function uploadImage(file){
 
@@ -314,6 +325,8 @@ const { error } = await supabase
     package: packageType,
 
     sash: sashType,
+
+    fabric: fabricType,
 
     student_name: document.getElementById("studentName").value,
 

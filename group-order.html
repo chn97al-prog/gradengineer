@@ -180,6 +180,78 @@ accept="image/*">
 
 <br>
 
+<!-- ===================== -->
+<!-- قسم الإضافات -->
+<!-- ===================== -->
+
+<h2 style="margin-top: 40px; margin-bottom: 25px; text-align: center;">
+<i class="fa-solid fa-gift"></i> الإضافات
+</h2>
+
+<!-- الشال الأمريكي -->
+<div class="input-box" style="display: flex; align-items: center; gap: 15px;">
+<input 
+type="checkbox" 
+id="americanShawl"
+style="width: auto; margin: 0;">
+<label for="americanShawl" style="margin: 0; flex: 1;">
+<i class="fa-solid fa-star"></i> شال أمريكي
+</label>
+</div>
+
+<br>
+
+<!-- تطعيم بالردن -->
+<div class="input-box" style="display: flex; align-items: center; gap: 15px;">
+<input 
+type="checkbox" 
+id="sleeveEmbroidery"
+style="width: auto; margin: 0;">
+<label for="sleeveEmbroidery" style="margin: 0; flex: 1;">
+<i class="fa-solid fa-needle"></i> تطعيم بالردن
+</label>
+</div>
+
+<br>
+
+<!-- ردن مبطن -->
+<div class="input-box" style="display: flex; align-items: center; gap: 15px;">
+<input 
+type="checkbox" 
+id="sleeveLinned"
+style="width: auto; margin: 0;">
+<label for="sleeveLinned" style="margin: 0; flex: 1;">
+<i class="fa-solid fa-layer-group"></i> ردن مبطن
+</label>
+</div>
+
+<br>
+
+<!-- زيادة في طول -->
+<div class="input-box">
+<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+<input 
+type="checkbox" 
+id="lengthIncrease"
+style="width: auto; margin: 0;">
+<label for="lengthIncrease" style="margin: 0; flex: 1;">
+<i class="fa-solid fa-arrow-up"></i> زيادة في طول الروب
+</label>
+</div>
+
+<input 
+type="number" 
+id="lengthIncreaseAmount"
+placeholder="أدخل كمية الزيادة بالسنتيمتر (سم)"
+min="0"
+step="0.5"
+style="display: none;">
+</div>
+
+<br>
+
+<!-- ===================== -->
+
 <button
 type="submit"
 class="btn btn-primary">
@@ -210,11 +282,38 @@ class="btn btn-secondary">
 
 <script>
 
+// إظهار/إخفاء حقل كمية الزيادة
+document.getElementById("lengthIncrease").addEventListener("change", function(){
+
+    const amountInput = document.getElementById("lengthIncreaseAmount");
+    
+    if(this.checked){
+        amountInput.style.display = "block";
+        amountInput.required = true;
+    } else {
+        amountInput.style.display = "none";
+        amountInput.required = false;
+        amountInput.value = "";
+    }
+
+});
+
 document
 .getElementById("groupOrderForm")
-.addEventListener("submit",function(e){
+.addEventListener("submit", function(e){
 
 e.preventDefault();
+
+// جمع بيانات الإضافات
+const additions = {
+    americanShawl: document.getElementById("americanShawl").checked,
+    sleeveEmbroidery: document.getElementById("sleeveEmbroidery").checked,
+    sleeveLinned: document.getElementById("sleeveLinned").checked,
+    lengthIncrease: document.getElementById("lengthIncrease").checked,
+    lengthIncreaseAmount: document.getElementById("lengthIncreaseAmount").value || 0
+};
+
+console.log("الإضافات المختارة:", additions);
 
 alert("تم إرسال الطلب بنجاح.");
 

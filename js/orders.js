@@ -53,7 +53,7 @@ function displayIndividualOrders(orders) {
     table.innerHTML = '';
 
     if (orders.length === 0) {
-        table.innerHTML = '<tr><td colspan="7" style="text-align:center;">لا توجد طلبات فردية</td></tr>';
+        table.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 20px;">لا توجد طلبات فردية</td></tr>';
         return;
     }
 
@@ -66,12 +66,12 @@ function displayIndividualOrders(orders) {
             <td>${order.sash_name}</td>
             <td>${order.fabric_type}</td>
             <td>
-                <span class='status-badge status-${order.status.toLowerCase().replace(' ', '-')}'>
+                <span class='status-badge status-${order.status.toLowerCase().replace(/\s+/g, '-')}'>
                     ${order.status}
                 </span>
             </td>
             <td>${date}</td>
-            <td>
+            <td style="white-space: nowrap;">
                 <button class='btn-small' onclick="viewDetails('${order.id}', 'individual')">👁️ عرض</button>
                 <button class='btn-small' onclick="editOrder('${order.id}', 'individual')">✏️ تعديل</button>
                 <button class='btn-small' onclick="deleteOrder('${order.id}', 'individual')">🗑️ حذف</button>
@@ -89,7 +89,7 @@ function displayGroupOrders(orders) {
     table.innerHTML = '';
 
     if (orders.length === 0) {
-        table.innerHTML = '<tr><td colspan="6" style="text-align:center;">لا توجد طلبات مجموعات</td></tr>';
+        table.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">لا توجد طلبات مجموعات</td></tr>';
         return;
     }
 
@@ -121,12 +121,12 @@ function displayGroupOrders(orders) {
             <td>${batchOrders.length}</td>
             <td>${representative}</td>
             <td>
-                <span class='status-badge status-${firstOrder.status.toLowerCase().replace(' ', '-')}'>
+                <span class='status-badge status-${firstOrder.status.toLowerCase().replace(/\s+/g, '-')}'>
                     ${firstOrder.status}
                 </span>
             </td>
             <td>${date}</td>
-            <td>
+            <td style="white-space: nowrap;">
                 <button class='btn-small' onclick="viewBatchDetails('${batchCode}')">👁️ عرض</button>
                 <button class='btn-small' onclick="editBatch('${batchCode}')">✏️ تعديل</button>
                 <button class='btn-small' onclick="deleteBatch('${batchCode}')">🗑️ حذف</button>
@@ -147,11 +147,11 @@ function displayGroupOrders(orders) {
                 <td>${order.sash_name}</td>
                 <td>${order.fabric_type}</td>
                 <td>
-                    <span class='status-badge status-${order.status.toLowerCase().replace(' ', '-')}'>
+                    <span class='status-badge status-${order.status.toLowerCase().replace(/\s+/g, '-')}'>
                         ${order.status}
                     </span>
                 </td>
-                <td>
+                <td style="white-space: nowrap;">
                     <button class='btn-small' onclick="viewDetails('${order.id}', 'group')">👁️ عرض</button>
                     <button class='btn-small' onclick="editOrder('${order.id}', 'group')">✏️ تعديل</button>
                     <button class='btn-small' onclick="deleteOrder('${order.id}', 'group')">🗑️ حذف</button>
@@ -495,37 +495,59 @@ async function deleteOrderFromModal() {
     closeModal();
 }
 
-// تطبيق الفلاتر
+// تطبيق الفلاتر والبحث
 function applyFilters() {
-    const typeFilter = document.getElementById('typeFilter').value;
-    const statusFilter = document.getElementById('statusFilter').value;
-    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    console.log('تطبيق الفلاتر...'); // للتحقق
+    
+    const typeFilter = document.getElementById('typeFilter')?.value || 'all';
+    const statusFilter = document.getElementById('statusFilter')?.value || 'all';
+    const searchInput = document.getElementById('searchInput')?.value?.toLowerCase() || '';
+
+    console.log('الفلتر:', { typeFilter, statusFilter, searchInput }); // للتحقق
 
     // تصفية الطلبات الفردية
-    let filteredIndividual = allIndividualOrders;
-    if (statusFilter !== 'all') {
-        filteredIndividual = filteredIndividual.filter(o => o.status === statusFilter);
-    }
-    if (searchInput) {
-        filteredIndividual = filteredIndividual.filter(o =>
-            o.student_name.toLowerCase().includes(searchInput) ||
-            o.sash_name.toLowerCase().includes(searchInput) ||
-            o.phone?.toLowerCase().includes(searchInput)
-        );
-    }
+    let filteredIndividual = allIndividualOrders.filter(o => {
+        let match = true;
+        
+        // فلتر الحالة
+        if (statusFilter !== 'all' && o.status !== statusFilter) {
+            match = false;
+        }
+        
+        // البحث
+        if (searchInput && match) {
+            const searchableText = `${o.student_name} ${o.sash_name} ${o.phone || ''}`.toLowerCase();
+            if (!searchableText.includes(searchInput)) {
+                match = false;
+            }
+        }
+        
+        return match;
+    });
+
+    console.log('الطلبات الفردية المفلترة:', filteredIndividual.length); // للتحقق
 
     // تصفية طلبات المجموعات
-    let filteredGroups = allGroupOrders;
-    if (statusFilter !== 'all') {
-        filteredGroups = filteredGroups.filter(o => o.status === statusFilter);
-    }
-    if (searchInput) {
-        filteredGroups = filteredGroups.filter(o =>
-            o.batch_code.toLowerCase().includes(searchInput) ||
-            o.student_name.toLowerCase().includes(searchInput) ||
-            o.representative_name?.toLowerCase().includes(searchInput)
-        );
-    }
+    let filteredGroups = allGroupOrders.filter(o => {
+        let match = true;
+        
+        // فلتر الحالة
+        if (statusFilter !== 'all' && o.status !== statusFilter) {
+            match = false;
+        }
+        
+        // البحث
+        if (searchInput && match) {
+            const searchableText = `${o.batch_code} ${o.student_name} ${o.representative_name || ''}`.toLowerCase();
+            if (!searchableText.includes(searchInput)) {
+                match = false;
+            }
+        }
+        
+        return match;
+    });
+
+    console.log('طلبات المجموعات المفلترة:', filteredGroups.length); // للتحقق
 
     // عرض النتائج حسب الفلتر
     if (typeFilter === 'individual' || typeFilter === 'all') {
@@ -548,6 +570,7 @@ function resetFilters() {
     document.getElementById('searchInput').value = '';
     displayIndividualOrders(allIndividualOrders);
     displayGroupOrders(allGroupOrders);
+    console.log('تم إعادة تعيين الفلاتر');
 }
 
 // تحديث الإحصائيات

@@ -11,6 +11,8 @@ let currentOrderType = null;
 
 // تحميل البيانات عند فتح الصفحة
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log("📄 تحميل صفحة الطلبات...");
+    console.log("🔗 Supabase object:", typeof supabase);
     await loadOrders();
     updateStatistics();
 });
@@ -18,6 +20,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 // تحميل جميع الطلبات من Supabase
 async function loadOrders() {
     try {
+        console.log("🔄 جاري تحميل الطلبات...");
+        
         // تحميل الطلبات الفردية
         const { data: individualData, error: individualError } = await supabase
             .from('individual_orders')
@@ -26,6 +30,7 @@ async function loadOrders() {
 
         if (individualError) throw individualError;
         allIndividualOrders = individualData || [];
+        console.log("✅ تم تحميل الطلبات الفردية:", allIndividualOrders.length);
 
         // تحميل طلبات المجموعات
         const { data: groupData, error: groupError } = await supabase
@@ -35,13 +40,14 @@ async function loadOrders() {
 
         if (groupError) throw groupError;
         allGroupOrders = groupData || [];
+        console.log("✅ تم تحميل طلبات المجموعات:", allGroupOrders.length);
 
         // عرض البيانات
         displayIndividualOrders(allIndividualOrders);
         displayGroupOrders(allGroupOrders);
     } catch (error) {
-        console.error('خطأ في تحميل الطلبات:', error);
-        alert('حدث خطأ في تحميل الطلبات');
+        console.error('❌ خطأ في تحميل الطلبات:', error);
+        alert('حدث خطأ في تحميل الطلبات: ' + error.message);
     }
 }
 
@@ -271,7 +277,7 @@ async function viewDetails(orderId, type) {
 
         document.getElementById('detailsModal').style.display = 'block';
     } catch (error) {
-        console.error('خطأ في عرض التفاصيل:', error);
+        console.error('❌ خطأ في عرض التفاصيل:', error);
         alert('حدث خطأ في عرض التفاصيل');
     }
 }
@@ -401,7 +407,7 @@ async function editOrder(orderId, type) {
         editModalBody.innerHTML = html;
         document.getElementById('editModal').style.display = 'block';
     } catch (error) {
-        console.error('خطأ في تعديل الطلب:', error);
+        console.error('❌ خطأ في تعديل الطلب:', error);
         alert('حدث خطأ');
     }
 }
@@ -435,19 +441,19 @@ async function saveEdit() {
 
         if (error) throw error;
 
-        alert('تم حفظ التعديلات بنجاح');
+        alert('✅ تم حفظ التعديلات بنجاح');
         closeEditModal();
         await loadOrders();
         updateStatistics();
     } catch (error) {
-        console.error('خطأ في حفظ التعديلات:', error);
-        alert('حدث خطأ في حفظ التعديلات');
+        console.error('❌ خطأ في حفظ التعديلات:', error);
+        alert('❌ حدث خطأ في حفظ التعديلات');
     }
 }
 
 // حذف الطلب
 async function deleteOrder(orderId, type) {
-    if (!confirm('هل تريد حذف هذا الطلب؟')) return;
+    if (!confirm('❓ هل تريد حذف هذا الطلب؟')) return;
 
     try {
         const tableName = type === 'individual' ? 'individual_orders' : 'group_orders';
@@ -458,18 +464,18 @@ async function deleteOrder(orderId, type) {
 
         if (error) throw error;
 
-        alert('تم حذف الطلب بنجاح');
+        alert('✅ تم حذف الطلب بنجاح');
         await loadOrders();
         updateStatistics();
     } catch (error) {
-        console.error('خطأ في حذف الطلب:', error);
-        alert('حدث خطأ في حذف الطلب');
+        console.error('❌ خطأ في حذف الطلب:', error);
+        alert('❌ حدث خطأ في حذف الطلب');
     }
 }
 
 // حذف الدفعة كاملة
 async function deleteBatch(batchCode) {
-    if (!confirm('هل تريد حذف هذه الدفعة بالكامل؟')) return;
+    if (!confirm('❓ هل تريد حذف هذه الدفعة بالكامل؟')) return;
 
     try {
         const { error } = await supabase
@@ -479,12 +485,12 @@ async function deleteBatch(batchCode) {
 
         if (error) throw error;
 
-        alert('تم حذف الدفعة بنجاح');
+        alert('✅ تم حذف الدفعة بنجاح');
         await loadOrders();
         updateStatistics();
     } catch (error) {
-        console.error('خطأ في حذف الدفعة:', error);
-        alert('حدث خطأ في حذف الدفعة');
+        console.error('❌ خطأ في حذف الدفعة:', error);
+        alert('❌ حدث خطأ في حذف الدفعة');
     }
 }
 
@@ -497,13 +503,13 @@ async function deleteOrderFromModal() {
 
 // تطبيق الفلاتر والبحث
 function applyFilters() {
-    console.log('تطبيق الفلاتر...'); // للتحقق
+    console.log('🔍 تطبيق الفلاتر...');
     
     const typeFilter = document.getElementById('typeFilter')?.value || 'all';
     const statusFilter = document.getElementById('statusFilter')?.value || 'all';
     const searchInput = document.getElementById('searchInput')?.value?.toLowerCase() || '';
 
-    console.log('الفلتر:', { typeFilter, statusFilter, searchInput }); // للتحقق
+    console.log('📊 الفلتر:', { typeFilter, statusFilter, searchInput });
 
     // تصفية الطلبات الفردية
     let filteredIndividual = allIndividualOrders.filter(o => {
@@ -525,7 +531,7 @@ function applyFilters() {
         return match;
     });
 
-    console.log('الطلبات الفردية المفلترة:', filteredIndividual.length); // للتحقق
+    console.log('📋 الطلبات الفردية المفلترة:', filteredIndividual.length);
 
     // تصفية طلبات المجموعات
     let filteredGroups = allGroupOrders.filter(o => {
@@ -547,7 +553,7 @@ function applyFilters() {
         return match;
     });
 
-    console.log('طلبات المجموعات المفلترة:', filteredGroups.length); // للتحقق
+    console.log('👥 طلبات المجموعات المفلترة:', filteredGroups.length);
 
     // عرض النتائج حسب الفلتر
     if (typeFilter === 'individual' || typeFilter === 'all') {
@@ -570,7 +576,7 @@ function resetFilters() {
     document.getElementById('searchInput').value = '';
     displayIndividualOrders(allIndividualOrders);
     displayGroupOrders(allGroupOrders);
-    console.log('تم إعادة تعيين الفلاتر');
+    console.log('🔄 تم إعادة تعيين الفلاتر');
 }
 
 // تحديث الإحصائيات
@@ -591,6 +597,8 @@ function updateStatistics() {
     document.getElementById('pendingOrders').textContent = pending;
     document.getElementById('inProgressOrders').textContent = inProgress;
     document.getElementById('completedOrders').textContent = completed;
+
+    console.log('📊 الإحصائيات:', { totalOrders, totalIndividual, totalGroups, pending, inProgress, completed });
 }
 
 // إغلاق Modals

@@ -1,1 +1,160 @@
-<!DOCTYPE html><html lang='ar' dir='rtl'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>الطلبات</title><link rel='stylesheet' href='../css/admin.css'><link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap' rel='stylesheet'></head><body><aside class='sidebar'><div class='logo'><img src='../assets/logo.png'><h2>تجهيزات المهندس</h2></div><ul><li><a href='dashboard.html'>الرئيسية</a></li><li class='active'><a href='orders.html'>الطلبات</a></li><li><a href='groups.html'>المجموعات</a></li><li><a href='representatives.html'>الممثلون</a></li><li><a href='statistics.html'>الإحصائيات</a></li><li><a href='settings.html'>الإعدادات</a></li></ul></aside><main class='content'><div class='header'><h1>إدارة الطلبات</h1></div><input id='search' type='text' placeholder='ابحث عن طلب...' onkeyup='searchOrders()'><br><br><table><thead><tr><th>رقم الطلب</th><th>الاسم</th><th>النوع</th><th>الحالة</th><th>الإجراءات</th></tr></thead><tbody id='ordersTable'></tbody></table></main><script src='../js/orders.js'></script><script type='module' src='../js/auth.js'></script></body></html>
+<!DOCTYPE html>
+<html lang='ar' dir='rtl'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <title>الطلبات</title>
+    <link rel='stylesheet' href='../css/admin.css'>
+    <link href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap' rel='stylesheet'>
+</head>
+<body>
+    <aside class='sidebar'>
+        <div class='logo'>
+            <img src='../assets/logo.png'>
+            <h2>تجهيزات المهندس</h2>
+        </div>
+        <ul>
+            <li><a href='dashboard.html'>📊 لوحة التحكم</a></li>
+            <li class='active'><a href='orders.html'>📋 الطلبات</a></li>
+            <li><a href='groups.html'>👥 المجموعات</a></li>
+            <li><a href='representatives.html'>👤 الممثلين</a></li>
+            <li><a href='statistics.html'>📈 الإحصائيات</a></li>
+            <li><a href='settings.html'>⚙️ الإعدادات</a></li>
+        </ul>
+    </aside>
+
+    <main class='content'>
+        <div class='header'>
+            <h1>📋 الطلبات</h1>
+        </div>
+
+        <!-- الإحصائيات -->
+        <section class='cards' id='statsCards'>
+            <div class='card'>
+                <h2>إجمالي الطلبات</h2>
+                <p id='totalOrders'>0</p>
+            </div>
+            <div class='card'>
+                <h2>طلبات فردية</h2>
+                <p id='totalIndividual'>0</p>
+            </div>
+            <div class='card'>
+                <h2>طلبات مجموعات</h2>
+                <p id='totalGroups'>0</p>
+            </div>
+            <div class='card'>
+                <h2>قيد الانتظار</h2>
+                <p id='pendingOrders'>0</p>
+            </div>
+            <div class='card'>
+                <h2>قيد الإنجاز</h2>
+                <p id='inProgressOrders'>0</p>
+            </div>
+            <div class='card'>
+                <h2>مكتملة</h2>
+                <p id='completedOrders'>0</p>
+            </div>
+        </section>
+
+        <!-- الفلاتر -->
+        <div class='filters-section'>
+            <div class='filter-group'>
+                <label>نوع الطلب:</label>
+                <select id='typeFilter' onchange='applyFilters()'>
+                    <option value='all'>الكل</option>
+                    <option value='individual'>فردي</option>
+                    <option value='group'>مجموعة</option>
+                </select>
+            </div>
+            <div class='filter-group'>
+                <label>الحالة:</label>
+                <select id='statusFilter' onchange='applyFilters()'>
+                    <option value='all'>الكل</option>
+                    <option value='Pending'>قيد الانتظار</option>
+                    <option value='In Progress'>قيد الإنجاز</option>
+                    <option value='Completed'>مكتملة</option>
+                    <option value='Cancelled'>ملغاة</option>
+                </select>
+            </div>
+            <div class='filter-group'>
+                <label>البحث:</label>
+                <input type='text' id='searchInput' placeholder='ابحث عن اسم أو رقم...' onkeyup='applyFilters()'>
+            </div>
+            <button class='btn' onclick='resetFilters()'>إعادة تعيين</button>
+        </div>
+
+        <!-- الطلبات الفردية -->
+        <section class='latest-orders'>
+            <h2>📋 الطلبات الفردية</h2>
+            <div class='table-responsive'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>معرّف الطلب</th>
+                            <th>اسم الطالب</th>
+                            <th>الاسم على الوشاح</th>
+                            <th>نوع القماش</th>
+                            <th>الحالة</th>
+                            <th>التاريخ</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id='individualOrdersTable'>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- طلبات المجموعات -->
+        <section class='latest-orders' style='margin-top:40px;'>
+            <h2>👥 طلبات المجموعات</h2>
+            <div class='table-responsive'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>كود الدفعة</th>
+                            <th>عدد الطلاب</th>
+                            <th>الممثل</th>
+                            <th>الحالة</th>
+                            <th>التاريخ</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id='groupOrdersTable'>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal لعرض التفاصيل -->
+    <div id='detailsModal' class='modal'>
+        <div class='modal-content'>
+            <span class='close' onclick='closeModal()'>&times;</span>
+            <h2>تفاصيل الطلب</h2>
+            <div id='modalBody'></div>
+            <div style='margin-top:20px;'>
+                <button class='btn' onclick='closeModal()'>إغلاق</button>
+                <button class='btn' style='background:#e74c3c;' onclick='deleteOrderFromModal()'>حذف</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal لتعديل الطلب -->
+    <div id='editModal' class='modal'>
+        <div class='modal-content'>
+            <span class='close' onclick='closeEditModal()'>&times;</span>
+            <h2>تعديل الطلب</h2>
+            <div id='editModalBody'></div>
+            <div style='margin-top:20px;'>
+                <button class='btn' onclick='saveEdit()'>حفظ</button>
+                <button class='btn' style='background:#95a5a6;' onclick='closeEditModal()'>إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <script src='../js/supabase.js'></script>
+    <script src='../js/orders.js'></script>
+    <script type='module' src='../js/auth.js'></script>
+</body>
+</html>

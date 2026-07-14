@@ -56,7 +56,7 @@
             </div>
         </section>
 
-        <!-- الفلاتر -->
+        <!-- الفلاتر والبحث -->
         <div class='filters-section'>
             <div class='filter-group'>
                 <label>نوع الطلب:</label>
@@ -78,7 +78,10 @@
             </div>
             <div class='filter-group'>
                 <label>البحث:</label>
-                <input type='text' id='searchInput' placeholder='ابحث عن اسم أو رقم...' onkeyup='applyFilters()'>
+                <div style='display:flex; gap:10px;'>
+                    <input type='text' id='searchInput' placeholder='ابحث عن اسم أو رقم...' onkeyup='applyFilters()' style='flex:1;'>
+                    <button class='btn-search' onclick='applyFilters()' title='بحث'>🔍</button>
+                </div>
             </div>
             <button class='btn' onclick='resetFilters()'>إعادة تعيين</button>
         </div>
